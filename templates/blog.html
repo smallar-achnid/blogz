@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% block content %} 
+
+<h1>Blogposts</h1>
+        <ol>
+            {% for blogpost in blogposts %}
+			<li><a href="/blog?id={{blogpost.id}}">
+				<h3>{{blogpost.title}}</h3></a>
+				<input type="hidden" name="blogpost-id" value="{{blogpost.id}}" />  
+			</li>
+			<p>{{blogpost.body}}</p>
+            {% endfor %}
+        </ol>
+
+    
+
+
+{% endblock %}
