@@ -1,5 +1,6 @@
-{% extends "base.html" %}
-
+<!doctype html> <html>
+	<a href="/">Home</a> <a href="/blog">All Posts</a> <a href="/newpost">New Post</a> <a href="/login">Log in </a> <a href="/logout">Log out</a>
+	
 {% block content %}
     <h1>Add New Post</h1>
     <form method='post'>
@@ -7,10 +8,11 @@
             New Post:
             <input type="text" name='title' />
 		</label>
-		<label>
+		
+		<p><label>
 			Blog Text:
 			<input type="text" name='body'/>
-		</label>
+		</label></p>
         <input type="submit" value='Add Blog Post' />
 	</form>
 	
@@ -19,5 +21,6 @@
 		<p>{{error}}</p>
 
 	{% endif %}
-
+	
 {% endblock %}
+</html>

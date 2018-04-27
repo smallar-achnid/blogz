@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block content %} 
+<a href="/">Home</a> <a href="/blog">All Posts</a> <a href="/newpost">New Post</a> <a href="/login">Log in </a> <a href="/logout">Log out</a>
 
 <h1>Blogposts</h1>
         <ol>
@@ -8,10 +8,6 @@
 				<input type="hidden" name="blogpost-id" value="{{blogpost.id}}" />  
 			</li>
 			<p>{{blogpost.body}}</p>
+			<p>written by <a href="/blog?user={{blogpost.owner_id}}"> {{ blogpost.owner.username }}</a></p>
             {% endfor %}
         </ol>
-
-    
-
-
-{% endblock %}

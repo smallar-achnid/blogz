@@ -1,0 +1,8 @@
+<a href="/">Home</a> <a href="/blog">All Posts</a> <a href="/newpost">New Post</a> <a href="/login">Log in </a> <a href="/logout">Log out</a>
+
+<h1>Users</h1>
+        <ul>
+            {% for user in users %}
+			<p><a href="/blog?user={{user.id}}"> {{user.username}}</a></p>
+            {% endfor %}
+        </ul>
