@@ -10,7 +10,7 @@ db = SQLAlchemy(app)
 class User(db.Model):
 
 	id = db.Column(db.Integer, primary_key=True)
-	username = db.Column(db.String(120))
+	username = db.Column(db.String(120), unique=True)
 	password = db.Column(db.String(120))
 	blogs = db.relationship('Blogpost', backref='owner')
 
@@ -55,7 +55,7 @@ def newpost():
 			new_post = Blogpost(title, body, owner)
 			db.session.add(new_post)
 			db.session.commit()
-			return redirect('/blog')
+			return redirect('/blog?id='+ str(new_post.id))
 			db.session.username()
 
 	return render_template('newpost.html', error=error)
@@ -75,28 +75,36 @@ def login():
 
 	return render_template('login.html', error=error)
 
+#@app.route('/signup', methods=['POST'])
+
+		
+		
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
+	error = ''
 	if request.method == 'POST':
 		username = request.form['username']
 		password = request.form['password']
 		verify = request.form['verify']
-
-	
-		existing_user = User.query.filter_by(username=username).first()
-		if not existing_user:
-			if password == verify:
-				new_user = User(username, password)
-				db.session.add(new_user)
-				db.session.commit()
-				session['username'] = username
-			else:
-				error = "Username and Password do not match"
-		else:
-			error = "Duplicate user"
-		return redirect('/')
+		un_db_count = User.query.filter_by(username=username).count()
+		if un_db_count > 0:
+			error = 'Duplicate user'
+		#username_list = []
+		if username == '' or password == '':
+			error = "Please fill out all fields"
+		#if username in  
+		#	error = "Duplicate User"
+		if password != verify:
+			error = "Passwords do not match"
+		if error == '':
+			new_user = User(username, password)
+			db.session.add(new_user)
+			db.session.commit()
+			session['username'] = username
+			return redirect('/')
 
 	return render_template('signup.html', error=error)
+	
 
 @app.route('/logout')
 def logout():
@@ -111,8 +119,7 @@ def index():
 
 @app.route('/blog')
 def show_blogs():
-	#owner = User.query.filter_by(username=session['username']).first()
-	#posts = Blogpost.query.filter_by(owner=owner).all()
+	
 	blog_id = request.args.get('id')
 	blog_user_id = request.args.get('user')
 	if blog_id != None:
